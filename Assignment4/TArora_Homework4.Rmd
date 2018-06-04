@@ -82,5 +82,7 @@ write.table(df,sep=",",col.names=FALSE, file=paste(getwd(),"/college_all_ages.cs
 
 # Question 3
 
+git repo for MSDS 6306 Assignment4
+https://github.com/tanvi-arora/SMU_MSDS6306_Homework.git
 
 
