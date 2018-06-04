@@ -1,0 +1,86 @@
+---
+title: "Assignment4"
+author: "Tanvi Arora"
+date: "June 3, 2018"
+output: html_document
+---
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+# Question 1
+```{r fivethirtyeight, echo=TRUE, warning=FALSE}
+#  (a) install.packages("fivethirtyeight")
+library(fivethirtyeight)
+
+
+
+## list all datasets
+#data(package = "fivethirtyeight")
+
+##18th data set
+#View(classic_rock_raw_data)
+
+# (b) assign college_all_ages dataset to object df
+df <- college_all_ages
+
+## (c) To see more detailed list of all datasets , see package vignette
+vignette("fivethirtyeight", package = "fivethirtyeight")
+
+# (d) dimensions of the college_all_ages dataset
+dim(df)
+
+# column names of this data frame
+names(df)
+
+```
+
+# Question 2
+dataset being used : fivethirtyeight.college_all_ages
+```{r usefivethirtyeight,echo=TRUE, warning=FALSE}
+
+# (a)column names
+    names(df)
+
+#   count number of columns in college_all_ages dataset
+
+    length(names(df))
+    
+#  (b) count of unique major category
+    # or use dplyr package
+    #install.packages('dplyr')
+    library(dplyr)
+    major_count <- df %>% group_by(major_category) %>% summarise(count=n())
+    major_count
+    
+#   (c) create barplot for major_count    
+    
+  op <- par(mar = c(4,11,2,2)+0.1)
+
+     barplot(height=major_count$count, 
+             width=0.5,
+             names.arg=major_count$major_category ,
+             horiz=TRUE,
+             col='purple' ,
+             #ylab="Category of major from Carnevale et al" ,
+             xlab="count" , 
+             main="The Economic Guide To Picking A College Major" , 
+             cex.names=0.5, 
+             font.lab=2,
+             col.lab='red', 
+             cex.lab=1 ,
+             space=0 ,
+             las=2) 
+             mtext("Category of major from Carnevale et al",side=2,line=9,col='red')
+  
+#   (d)   write dataset to a csv file
+write.table(df,sep=",",col.names=FALSE, file=paste(getwd(),"/college_all_ages.csv",sep=""),row.names=FALSE)
+```
+
+
+# Question 3
+
+
+
