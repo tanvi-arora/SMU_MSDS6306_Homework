@@ -1,0 +1,112 @@
+---
+title: "Assignment5"
+author: "Tanvi Arora"
+date: "June 10, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Question1 - Data Munging \
+
+Dataset used  - yob2016.txt \
+Description   - This file is a series of popular children's names born in the year 2016 in the United States. \
+variables     - firstname,gender,amount of children given that name \
+
+```{r datamunging,echo=TRUE}
+# 1.a import given dataset into R dataframe df
+
+df <- read.table('Data/yob2016.txt', sep=';' , header=F)
+names(df) <- c("Name","Gender" , "count")
+head(df)
+
+# 1.b summary of df
+
+summary(df)
+
+ #     structure of df
+
+str(df)
+
+# 1.c  finding duplicate entry
+
+grep("yyy$" , df$Name , value=TRUE)
+
+#  1.d remove the redundant entry
+
+y2016 <- df[-1*which(df$Name == (grep("yyy$" , df$Name , value=TRUE))),]
+str(y2016)
+```
+
+
+### Question2 - Data Merging \
+
+Dataset used  - yob2015.txt \
+Description   - This file is a series of popular children's names born in the year 2015 in the United States. \
+variables     - firstname,gender,amount of children given that name \
+
+```{r datamerging,echo=TRUE}
+
+#  2.a  import given dataset into R dataframe y2015
+
+y2015 <- read.table('Data/yob2015.txt', sep=',' , header=F)
+names(y2015) <- c("Name","Gender" , "count")
+
+#  2.b  display last 10 rows of the dataframe y2015
+tail(y2015,10)
+
+```
+ Last 10 rows of the dataset y2015 begin with 'z' , are all names for Males and each have a total number of 5 children with the same name.
+ 
+```{r datamergingcontd,echo=TRUE}
+ 
+#  2.c merge dataset y2016 and y2015
+
+final <- merge(x=y2016, y=y2015, by=union("Name","Gender"), all=FALSE)
+names(final) <- c("Name", "Gender" , "count_2016" , "count_2015")
+str(final)
+summary(final)
+
+```
+
+## Question3 - Data Summary \
+
+Dataset used - final \
+Description - This dataframe is a series of popular children's names born in the year 2015 and 2016 in the United States. \
+Variables - Name,Gender, count of children in the year 2016, count of children in the year 2015 \
+
+```{r datasummary,echo=TRUE}
+
+#  3.a  create new column Total
+
+final$Total <- final$count_2016 + final$count_2015
+
+#  sum of Totals gives how many people were given popular names in 2015 and 2016 combined
+  
+sum(final$Total)
+
+#  3.b  sort the data by Total 
+
+final <- final[order(final$Total,decreasing = TRUE),]
+
+# Display top 10 popular Names
+
+head(final,10)
+
+#  3.c  omit names of boys 
+
+final <- final[which(final$Gender == 'F'),]
+
+#  Top 10 baby girl names
+
+head(final,10)
+
+#  3.d  write csv file to list top 10 baby girl names
+
+write.csv(subset(head(final,10),select=c("Name","Total")),file="Data/Top10babygirlnames.csv",row.names = FALSE , col.names = TRUE )
+  
+```
+
+Top 10 baby girl names file is in Data folder under the working directoy by the name *Top10babygirlnames.csv*
