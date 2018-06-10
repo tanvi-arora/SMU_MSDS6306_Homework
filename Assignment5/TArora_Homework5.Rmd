@@ -1,8 +1,11 @@
 ---
 title: "Assignment5"
-author: "Tanvi Arora"
+author: |
+        | "Tanvi Arora"
+        | "[Github link for Assignment5](https://github.com/tanvi-arora/SMU_MSDS6306_Homework/tree/master/Assignment5)"
 date: "June 10, 2018"
 output: html_document
+
 ---
 
 ```{r setup, include=FALSE}
